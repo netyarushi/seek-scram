@@ -14,7 +14,11 @@ import java.util.Set;
 import graph.SeekState;
 import graph.SewerDiver;
 
-/** netid: apn29 */
+/**
+* Author: Arushi Nety. 
+* This project is in two parts: One part is to find a ring in the sewer system; the other is to pick up as many coins 
+* as possible and safely exit without running out of steps. 
+*/
 
 public class McDiver extends SewerDiver {
 
@@ -23,30 +27,17 @@ public class McDiver extends SewerDiver {
      * it up. If McDiver continues to move after finding the ring rather <br>
      * than returning, it will not count.<br>
      * If McDiver returns from this function while not standing on top of the ring, <br>
-     * it will count as a failure.
-     *
-     * There is no limit to how many steps McDiver can take, but you will receive<br>
-     * a score bonus multiplier for finding the ring in fewer steps.
-     *
-     * At every step, McDiver knows only the current tile's ID and the ID of all<br>
-     * open neighbor tiles, as well as the distance to the ring at each of <br>
-     * these tiles (ignoring walls and obstacles).
-     *
-     * In order to get information about the current state, use functions<br>
-     * currentLocation(), neighbors(), and distanceToRing() in state.<br>
-     * You know McDiver is standing on the ring when distanceToRing() is 0.
-     *
-     * Use function moveTo(long id) in state to move McDiver to a neighboring<br>
-     * tile by its ID. Doing this will change state to reflect your new position. */
+     * it will count as a failure. 
+     */
     @Override
     public void seek(SeekState state) {
-        // TODO : Find the ring and return.
-
+        
         // holds the visited nodes
         HashMap<Long, Boolean> visit= new HashMap<>();
         dfsWalk(state, visit);
     }
 
+    //Abstract implementation of a depth first search walk
     /** Node u= s.standingOn(); Visit u; for each neighbor w of u { if (w is unvisited) {
      * s.moveTo(w); dfsWalk(s); s.moveTo(u); */
 
@@ -93,35 +84,9 @@ public class McDiver extends SewerDiver {
      * collect as many coins as possible along the way. McDiver must ALWAYS <br>
      * get out before the steps are all used, and this should be prioritized above<br>
      * collecting coins.
-     *
-     * You now have access to the entire underlying graph, which can be accessed<br>
-     * through ScramState. currentNode() and getExit() will return Node objects<br>
-     * of interest, and getNodes() will return a collection of all nodes on the graph.
-     *
-     * You have to get out of the sewer system in the number of steps given by<br>
-     * stepsToGo(); for each move along an edge, this number is <br>
-     * decremented by the weight of the edge taken.
-     *
-     * Use moveTo(n) to move to a node n that is adjacent to the current node.<br>
-     * When n is moved-to, coins on node n are automatically picked up.
-     *
-     * McDiver must return from this function while standing at the exit. Failing <br>
-     * to do so before steps run out or returning from the wrong node will be<br>
-     * considered a failed run.
-     *
-     * Initially, there are enough steps to get from the starting point to the<br>
-     * exit using the shortest path, although this will not collect many coins.<br>
-     * For this reason, a good starting solution is to use the shortest path to<br>
-     * the exit. */
+     */
     @Override
     public void scram(ScramState state) {
-        // TODO: Get out of the sewer system before the steps are used up.
-        // DO NOT WRITE ALL THE CODE HERE. Instead, write your method elsewhere,
-        // with a good specification, and call it from this one.
-        // We say this because it makes it easier for you to try different
-        // possibilities, always keeping at least one method that always scrams
-        // in the prescribed number of steps.
-
         // HashMap<Node, Boolean> visit= new HashMap<>();
         // exitOpt2(state, visit);
 
@@ -240,11 +205,13 @@ public class McDiver extends SewerDiver {
         }
 
         int st= s.stepsToGo();
+        
         // as long as there are enough steps in part of the path, keep going
         for (Node x : ln) {
-            if (curr.getNeighbors().contains(x)) {
+            Set<Node> ne = curr.getNeighbors(); 
+            if (ne.contains(x)) {
                 if (st > curr.getEdge(x).length() + A6.pathSum(shp.get(x))) {
-                    if (curr.getNeighbors().contains(x)) {
+                    if (ne.contains(x)) {
                         s.moveTo(x);
                         return;
                     }
