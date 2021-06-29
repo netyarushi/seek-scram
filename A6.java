@@ -31,7 +31,7 @@ public class A6 {
         NodeData vd= new NodeData(null, 0);
 
         SandF.put(v, vd);
-
+        //just adding a comment to see if github works
         while (F.size != 0) {
             // f = node in F with minimum d value
             Node f= F.poll();
